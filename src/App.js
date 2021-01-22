@@ -114,8 +114,8 @@ export default class App extends React.Component {
           playsInline
           // style={{ border }}
           ref={this.videoRef}
-          width="700"
-          height="700"
+          width="1000"
+          height="1000"
         />
         <canvas style={this.styles} ref={this.canvasRef} width="1200" height="1200" />
       </div>
