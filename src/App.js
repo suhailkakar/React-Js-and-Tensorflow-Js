@@ -20,8 +20,8 @@ export default class App extends React.Component {
         this.detectFromVideoFrame(model, video);
       });
     }, (error) => {
-      console.log("Couldn't start the webcam")
-      console.error(error)
+      alert("Couldn't start the webcam")
+      alert(error)
     });
   };
 
@@ -31,9 +31,6 @@ export default class App extends React.Component {
     const font = "24px helvetica";
     ctx.font = font;
     ctx.textBaseline = "top";
-
-    console.log(predictions)
-
     predictions.forEach(prediction => {
       const x = prediction.bbox[0];
       const y = prediction.bbox[1];
@@ -61,16 +58,13 @@ export default class App extends React.Component {
 
   componentDidMount() {
     if (navigator.mediaDevices.getUserMedia || navigator.mediaDevices.webkitGetUserMedia) {
-      // define a Promise that'll be used to load the webcam and read its frames
       const webcamPromise = navigator.mediaDevices
         .getUserMedia({
           video: true,
           audio: false,
         })
         .then(stream => {
-          // pass the current frame to the window.stream
           window.stream = stream;
-          // pass the stream to the videoRef
           this.videoRef.current.srcObject = stream;
 
           return new Promise(resolve => {
@@ -83,10 +77,8 @@ export default class App extends React.Component {
           console.error(error)
         });
 
-      // define a Promise that'll be used to load the model
       const loadlModelPromise = cocoSsd.load();
 
-      // resolve all the Promises
       Promise.all([loadlModelPromise, webcamPromise])
         .then(values => {
           this.detectFromVideoFrame(values[0], this.videoRef.current);
@@ -112,7 +104,6 @@ export default class App extends React.Component {
           autoPlay
           muted
           playsInline
-          // style={{ border }}
           ref={this.videoRef}
           width="1000"
           height="1000"
